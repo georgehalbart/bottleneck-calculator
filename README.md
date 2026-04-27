@@ -6,6 +6,11 @@ A lightweight browser extension that helps you analyze performance imbalance bet
 
 PC Bottleneck Calculator is designed for developers, gamers, and PC enthusiasts who want to understand how well their hardware components work together. It provides fast and simple bottleneck analysis directly in the browser—no heavy software required.
 
+👉 Try the full web version here:
+🔗 https://devicexa.com/tools/bottleneck-calculator/
+
+This online tool analyzes CPU, GPU, RAM, and system behavior to detect performance limitations and suggest improvements.
+
 ⚙️ Features
 🔍 Automatic bottleneck detection (CPU vs GPU)
 🛠 Manual hardware comparison mode
@@ -17,6 +22,18 @@ Identify performance limitations in your PC
 Improve gaming performance and FPS stability
 Make better hardware upgrade decisions
 Avoid unnecessary spending on mismatched components
+
+A bottleneck occurs when one component limits overall system performance, reducing efficiency and causing lag or lower FPS.
+
+🌐 Web Version
+
+If you don’t want to install the extension, you can use the tool directly in your browser:
+
+👉 Live Tool:
+https://devicexa.com/tools/bottleneck-calculator/
+
+No installation required — instant analysis.
+
 🧩 Installation
 Chrome
 Download or clone this repository
@@ -45,19 +62,3 @@ This extension:
 ❌ Does NOT send data to external servers
 
 All calculations are performed locally in your browser.
-
-📷 Screenshots
-
-Add your extension screenshots here (recommended size: 1280x800)
-
-🧑‍💻 Tech Stack
-JavaScript (Vanilla)
-HTML / CSS
-Chrome Extension Manifest V3
-📄 License
-
-This project is licensed under the MIT License.
-
-🤝 Contributing
-
-Contributions are welcome. Feel free to fork this repo and submit a pull request.
