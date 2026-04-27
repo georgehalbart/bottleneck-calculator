@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bottleneck Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div id="bn-tool">
+        <h1>Bottleneck Calculator</h1>
+        <p class="bn-sub">Automatically fetch your system or manually select parts to see how much bottleneck you have</p>
+
+        <div class="bn-card">
+            <div class="bn-tabs">
+                <button class="bn-tab active" data-tab="manual">⚙️ Manual Selection</button>
+                <button class="bn-tab" data-tab="auto">🤖 Auto-Detect System</button>
+            </div>
+
+            <!-- Auto Tab -->
+            <div id="tab-auto" class="bn-tab-content bn-auto-ui">
+                <p style="margin-bottom:20px; color:var(--text-muted);">We will try to fetch your system CPU cores, RAM, and GPU from browser APIs securely.</p>
+                <button id="btn-detect">Detect My PC Specs</button>
+
+                <div id="auto-results" class="bn-detected-specs" style="display: none;">
+                    <p style="margin-bottom:15px; font-size:0.95rem; font-weight:600; color:var(--text-main);">We detected the following hardware. You can adjust these if our estimation was incorrect:</p>
+                    <div class="bn-spec-row">
+                        <span class="bn-spec-label">Processor (CPU):</span>
+                        <select class="bn-select" style="width:60%; padding:8px 12px; font-size:0.9rem;" id="det-sel-cpu"></select>
+                    </div>
+                    <div class="bn-spec-row">
+                        <span class="bn-spec-label">System RAM:</span>
+                        <select class="bn-select" style="width:60%; padding:8px 12px; font-size:0.9rem;" id="det-sel-ram"></select>
+                    </div>
+                    <div class="bn-spec-row">
+                        <span class="bn-spec-label">Graphics (GPU):</span>
+                        <select class="bn-select" style="width:60%; padding:8px 12px; font-size:0.9rem;" id="det-sel-gpu"></select>
+                    </div>
+                    <div class="bn-spec-row">
+                        <span class="bn-spec-label">Screen Resolution:</span>
+                        <select class="bn-select" style="width:60%; padding:8px 12px; font-size:0.9rem;" id="det-sel-res">
+                            <option value="1080">1920 x 1080 (1080p FHD)</option>
+                            <option value="1440">2560 x 1440 (1440p QHD)</option>
+                            <option value="2160">3840 x 2160 (4K UHD)</option>
+                        </select>
+                    </div>
+                    <div class="bn-spec-row">
+                        <span class="bn-spec-label">Storage Type:</span>
+                        <select class="bn-select" style="width:60%; padding:8px 12px; font-size:0.9rem;" id="det-sel-storage"></select>
+                    </div>
+                    <div class="bn-spec-row">
+                        <span class="bn-spec-label">Primary Purpose:</span>
+                        <select class="bn-select" style="width:60%; padding:8px 12px; font-size:0.9rem;" id="det-sel-use">
+                            <option value="gaming" selected>Gaming</option>
+                            <option value="general">General & Multitasking</option>
+                            <option value="render">Video Editing & 3D Rendering</option>
+                        </select>
+                    </div>
+                    <p style="margin-top:20px; font-size:0.85rem; color:var(--text-muted);">* Note: Browsers protect privacy by capping RAM readouts at 8GB and hiding storage types. We apply logical estimations above.</p>
+                    <button id="btn-auto-calc" class="bn-calc-btn">Calculate Bottleneck</button>
+                </div>
+            </div>
+
+            <!-- Manual Tab -->
+            <div id="tab-manual" class="bn-tab-content active">
+                <div class="bn-grid">
+                    <div class="bn-field">
+                        <label class="bn-label">Processor (CPU)</label>
+                        <select class="bn-select" id="man-cpu"></select>
+                    </div>
+                    <div class="bn-field">
+                        <label class="bn-label">Graphics Card (GPU)</label>
+                        <select class="bn-select" id="man-gpu"></select>
+                    </div>
+                    <div class="bn-field">
+                        <label class="bn-label">System RAM</label>
+                        <select class="bn-select" id="man-ram"></select>
+                    </div>
+                    <div class="bn-field">
+                        <label class="bn-label">Storage Drive</label>
+                        <select class="bn-select" id="man-storage"></select>
+                    </div>
+                    <div class="bn-field">
+                        <label class="bn-label">Screen Resolution</label>
+                        <select class="bn-select" id="man-res">
+                            <option value="1080">1920 x 1080 (1080p FHD)</option>
+                            <option value="1440" selected>2560 x 1440 (1440p QHD)</option>
+                            <option value="2160">3840 x 2160 (4K UHD)</option>
+                        </select>
+                    </div>
+                    <div class="bn-field">
+                        <label class="bn-label">Primary Purpose</label>
+                        <select class="bn-select" id="man-use">
+                            <option value="gaming" selected>Gaming</option>
+                            <option value="general">General & Multitasking</option>
+                            <option value="render">Video Editing & 3D Rendering</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="bn-calc-btn" id="btn-man-calc">Calculate Bottleneck</button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="bn-result" class="bn-card bn-result-card">
+            <div class="bn-result-header">
+                <h3 style="color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; font-size:0.9rem; margin-bottom:0;">System Bottleneck</h3>
+                <div class="bn-result-val" id="res-val">0%</div>
+                <p id="res-desc" style="font-weight:600; font-size:1.1rem;"></p>
+            </div>
+
+            <div class="bn-gauge-bg">
+                <div class="bn-gauge-fill" id="res-fill"></div>
+            </div>
+
+            <div class="bn-comp-breakdown">
+                <div class="bn-comp-card cpu-card">
+                    <div class="bn-comp-title">Processing Power</div>
+                    <div class="bn-comp-name" id="res-cpu-name">Intel Core i5-13600K</div>
+                    <div class="bn-comp-status" id="res-cpu-status">OK</div>
+                </div>
+                <div class="bn-comp-card gpu-card">
+                    <div class="bn-comp-title">Graphics Power</div>
+                    <div class="bn-comp-name" id="res-gpu-name">NVIDIA RTX 3070</div>
+                    <div class="bn-comp-status" id="res-gpu-status">OK</div>
+                </div>
+                <div class="bn-comp-card ram-card">
+                    <div class="bn-comp-title">Memory Allocation</div>
+                    <div class="bn-comp-name" id="res-ram-name">16GB DDR4</div>
+                    <div class="bn-comp-status" id="res-ram-status">Sufficient</div>
+                </div>
+                <div class="bn-comp-card storage-card">
+                    <div class="bn-comp-title">Data Streaming</div>
+                    <div class="bn-comp-name" id="res-storage-name">NVMe Gen3 SSD</div>
+                    <div class="bn-comp-status" id="res-storage-status">Fast</div>
+                </div>
+            </div>
+
+            <div class="bn-verdict-box" id="res-verdict"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
